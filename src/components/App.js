@@ -9,7 +9,8 @@ import Preloader from './Preloader'
 import MovieInfo from './MovieInfo'
 
 const API_KEY = '3cd812278264538c732dd03e786ad4c7'
-const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`
+const API_SEARCH = `https://api.themoviedb.org/3/search/movie`
+const API_MOVIE = `https://api.themoviedb.org/3/movie`
 
 const App = () => {
   const [movies, setMovies] = useState([])
@@ -22,7 +23,7 @@ const App = () => {
     e.preventDefault()
     if (searchTerm !== '') {
       setPreloader(1)
-      fetch(`${API_URL}&query=${searchTerm}`)
+      fetch(`${API_SEARCH}?api_key=${API_KEY}&query=${searchTerm}`)
       .then(data => data.json())
       .then(data => {
         setMovies([...data.results])
@@ -38,7 +39,7 @@ const App = () => {
 
   const nextPage = (pageNumber) => {
     setPreloader(1)
-    fetch(`${API_URL}&query=${searchTerm}&page=${pageNumber}`)
+    fetch(`${API_SEARCH}&query=${searchTerm}&page=${pageNumber}`)
       .then(data => data.json())
       .then(data => {
         setMovies([...data.results])
@@ -48,10 +49,10 @@ const App = () => {
   }
 
   const viewMovie = (id) => {
-    const filteredMovie = movies.filter(m => m.id === id)
-    const newCurrentMovie = filteredMovie.length > 0 ? filteredMovie[0] : null
-
-    setCurrentMovie(newCurrentMovie)
+  // если нужен трейлер добавить к урлу "&append_to_response=videos"
+    fetch(`${API_MOVIE}/${id}?api_key=${API_KEY}`)
+    .then(data => data.json())
+    .then(data => setCurrentMovie(data))
   }
 
   const closeMovie = (id) => {
@@ -63,14 +64,15 @@ const App = () => {
       <Nav/>
       <div className='main'>
         <Preloader active={preloader}/>
-        <SearchArea
-          handleSubmit={handleSubmit}
-          handleChange={handleChange}
-        />
+        
         {currentMovie ? (
           <MovieInfo closeMovie={closeMovie} data={currentMovie}/>
         ) : (
           <React.Fragment>
+            <SearchArea
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+            />
             <MovieList movies={movies} viewMovie={viewMovie}/>
             <Pagination
               totalResults={totalResults}

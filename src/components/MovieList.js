@@ -10,7 +10,6 @@ const MovieList = ({ movies, viewMovie }) => (
             key={i}
             data={m}
             viewMovie={viewMovie}
-            id={m.id}
           />
         ))}
       </div>
