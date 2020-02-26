@@ -14,7 +14,7 @@ const Movie = ({ data, viewMovie }) => (
           style={{width: "auto", height: 360}}
         />
         <div className="card-content">
-          <a href='#/' onClick={() => viewMovie(data.id)}>View details</a>
+          <a href='/movie' onClick={() => viewMovie(data.id)}>View details</a>
         </div>
       </div>
     </div>

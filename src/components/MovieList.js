@@ -1,7 +1,8 @@
 import React from 'react'
 import Movie from './Movie'
 
-const MovieList = ({ movies, viewMovie }) => (
+const MovieList = ({ movies, viewMovie }) => {
+  return (
   <div className="container">
     <div className="row">
       <div className="col s12">
@@ -15,6 +16,6 @@ const MovieList = ({ movies, viewMovie }) => (
       </div>
     </div>
   </div>
-)
+)}
 
 export default MovieList
