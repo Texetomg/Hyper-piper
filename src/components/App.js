@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
-import Nav from './Navbar'
-import Footer from './Footer'
+import Nav from './global/Navbar'
+import Footer from './global/Footer'
 import Main from './Main'
 
 const App = () => (

@@ -1,23 +1,19 @@
 import React, { useState } from 'react'
-import SearchArea from '../SearchArea'
-import MovieList from '../MovieList'
-import Pagination from '../Pagination'
-import Preloader from '../Preloader'
-import * as API from '../../constans'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { searchFilms } from '../../../redux/actions'
+import SearchArea from './SearchArea'
+import MovieList from './MovieList'
+import Pagination from '../../global/Pagination'
+import Preloader from '../../global/Preloader'
+import * as API from '../../../constans'
 
-/* const API_KEY = '3cd812278264538c732dd03e786ad4c7'
-const API_SEARCH = `https://api.themoviedb.org/3/search/movie`
-const API_MOVIE = `https://api.themoviedb.org/3/movie` */
-
-const SearchPage = (props) => {
-  const [errorStatus, setErrorStatus] = useState(null)
+const SearchPage = () => {
   const [preloader, setPreloader] = useState(0)
-  const [movies, setMovies] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [totalResults, setTotalResults] = useState(0)
+  const filmsStore = useSelector(state => state.films)
+  const dispatch = useDispatch();
 
-  console.log(props)
   const handleSubmit = (e) => {
     e.preventDefault()
     if (searchTerm !== '') {
@@ -25,12 +21,11 @@ const SearchPage = (props) => {
       fetch(`${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}`)
       .then(data => data.json())
       .then(data => {
-        setMovies([...data.results])
+        dispatch(searchFilms([...data.results]))
         setTotalResults(data.total_results)
         setPreloader(0)
       })
       .catch(error => {
-        setErrorStatus(error)
         setPreloader(0)
       })
     }  
@@ -45,21 +40,14 @@ const SearchPage = (props) => {
     fetch(`${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}&page=${pageNumber}`)
       .then(data => data.json())
       .then(data => {
-        setMovies([...data.results])
+        searchFilms([...data.results])
         setTotalResults(data.total_results)
         setPreloader(0)
       })
       .catch(error => {
-        setErrorStatus(error)
         setPreloader(0)
       })
   }
-
-/*   const viewMovie = (id) => {
-  // если нужен трейлер добавить к урлу "&append_to_response=videos"
-    fetch(`${API.SEARCH_MOVIE}/${id}?api_key=${API.KEY}`)
-    .then(data => data.json())
-  } */
 
   return (
     <div>
@@ -69,8 +57,7 @@ const SearchPage = (props) => {
         handleChange={handleChange}
       />
       <MovieList
-        movies={movies}
-/*         viewMovie={viewMovie} */
+        movies={filmsStore.searchedFilms}
       />
       <Pagination
         totalResults={totalResults}
@@ -81,7 +68,4 @@ const SearchPage = (props) => {
   )
 }
 
-const mapStateToProps = state => {
-  return { films: state.films }
-}
-export default connect(mapStateToProps)(SearchPage)
+export default SearchPage
