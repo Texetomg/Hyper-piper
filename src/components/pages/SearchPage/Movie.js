@@ -24,9 +24,6 @@ const Movie = ({ data }) => {
               // исправить в стили
               style={{width: "auto", height: 360}}
             />
-            <div className="card-content">
-              View details
-            </div>
           </div>
         </div>
       </div>
