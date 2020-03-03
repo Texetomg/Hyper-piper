@@ -1,52 +1,58 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { searchFilms } from '../../../redux/actions'
+import React, { useState, useEffect } from 'react'
 import SearchArea from './SearchArea'
 import MovieList from './MovieList'
 import Pagination from '../../global/Pagination'
 import Preloader from '../../global/Preloader'
 import * as API from '../../../constans'
 
+const fetchData = (url, setPreloader, setTotalResults, setResults) => {
+  setPreloader(1)
+    fetch(url)
+    .then(data => data.json())
+    .then(data => {
+      setResults(data.results)
+      setTotalResults(data.total_results)
+      setPreloader(0)
+    })
+    .catch(error => {
+      setPreloader(0)
+    })
+}
+
 const SearchPage = () => {
   const [preloader, setPreloader] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
-  const [totalResults, setTotalResults] = useState(0)
-  const filmsStore = useSelector(state => state.films)
-  const dispatch = useDispatch();
+  const [totalResults, setTotalResults] = useState([])
+  const [results, setResults] = useState([])
 
   const handleSubmit = (e) => {
+    const url = `${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}`
+
     e.preventDefault()
     if (searchTerm !== '') {
-      setPreloader(1)
-      fetch(`${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}`)
-      .then(data => data.json())
-      .then(data => {
-        dispatch(searchFilms([...data.results]))
-        setTotalResults(data.total_results)
-        setPreloader(0)
-      })
-      .catch(error => {
-        setPreloader(0)
-      })
+      fetchData(url ,setPreloader, setTotalResults, setResults)
     }  
   }
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value)
+    localStorage.setItem('searchTerm', e.target.value)
   }
 
+  useEffect(() => {
+    const searchTerm = localStorage.getItem('searchTerm')
+    const url = `${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}`
+
+    if (searchTerm !== null) {
+      fetchData(url ,setPreloader, setTotalResults, setResults)
+    }
+  }, [])
+
   const nextPage = (pageNumber) => {
-    setPreloader(1)
-    fetch(`${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}&page=${pageNumber}`)
-      .then(data => data.json())
-      .then(data => {
-        searchFilms([...data.results])
-        setTotalResults(data.total_results)
-        setPreloader(0)
-      })
-      .catch(error => {
-        setPreloader(0)
-      })
+    const searchTerm = localStorage.getItem('searchTerm')
+    const url = `${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}&page=${pageNumber}`
+
+    fetchData(url, setPreloader, setTotalResults, setResults)
   }
 
   return (
@@ -57,7 +63,7 @@ const SearchPage = () => {
         handleChange={handleChange}
       />
       <MovieList
-        movies={filmsStore.searchedFilms}
+        movies={results}
       />
       <Pagination
         totalResults={totalResults}
