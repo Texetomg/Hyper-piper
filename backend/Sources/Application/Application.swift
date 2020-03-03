@@ -10,12 +10,11 @@ public class App {
 
     func postInit() throws {
         initializeCodableRoutes(app: self)
-        router.all("/", middleware: StaticFileServer())
     }
 
     public func run() throws {
         try postInit()
-        Kitura.addHTTPServer(onPort: 80, with: router)
+        Kitura.addHTTPServer(onPort: 8000, with: router)
         Kitura.run()
     }
 }
