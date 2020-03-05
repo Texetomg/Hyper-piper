@@ -13,9 +13,10 @@ const Main = () => {
     <div className='main'>
       <Switch>
         <Route path='/login' component={LoginPage}/>
-        <PrivateRoute path='/' component={GreetingPage}/>
-        <PrivateRoute path='/search' component={SearchPage}/>
+        <Route exact path='/' component={GreetingPage}/>
+        <Route path='/search' component={SearchPage}/>
         <PrivateRoute path='/movie' component={MovieInfoPage}/>
+        
         <Route path='/*' component={NotFoundPage}/>
       </Switch>
     </div>
