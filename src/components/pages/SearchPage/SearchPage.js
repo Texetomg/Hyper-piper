@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import SearchArea from './SearchArea'
-import MovieList from './MovieList'
+import SearchArea from '../../global/SearchArea'
+import MovieList from '../../global/MovieList'
 import Pagination from '../../global/Pagination'
 import Preloader from '../../global/Preloader'
+import style from './SearchPage.module.css'
 import * as API from '../../../constans'
 
 const fetchData = (url, setPreloader, setTotalResults, setResults) => {
@@ -56,7 +57,7 @@ const SearchPage = () => {
   }
 
   return (
-    <div>
+    <div className={style.container}>
       <Preloader active={preloader}/>
       <SearchArea
         handleSubmit={handleSubmit}

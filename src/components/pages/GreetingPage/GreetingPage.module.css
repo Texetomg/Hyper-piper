@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 15px;
+}
+
+.element {
+  width: 30vw;
+  background-color: #252526;
+  height: 80vh;
+}

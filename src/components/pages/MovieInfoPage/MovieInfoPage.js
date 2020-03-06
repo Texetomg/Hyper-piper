@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Preloader from '../../global/Preloader'
-import defaultPoster from '../imgs/defaultPoster.png'
+import defaultPoster from '../../../assets/imgs/default_movie.png'
 import * as API from '../../../constans'
 
 const MovieInfoPage = () => {

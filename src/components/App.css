@@ -1,0 +1,10 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  color: #a1a2a0;
+}
+
+.main {
+  min-height: 86vh;
+  padding: 15px;
+}

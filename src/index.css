@@ -1,11 +1,5 @@
-.App {
+body {
+  min-height: 100%;
   margin: 0;
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  flex: 1 0 auto;
-}
-
-.main {
-  flex: 1 0 auto;
+  background-color: #1e1e1e;
 }
