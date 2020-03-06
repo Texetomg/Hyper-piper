@@ -3,7 +3,7 @@ import './App.css'
 import Navbar from './global/Navbar'
 import Footer from './global/Footer'
 import Main from './Main'
-import AuthProvider from './global/Auth'
+import { AuthProvider } from './global/Auth'
 
 const App = () => (
   <div className='App'>

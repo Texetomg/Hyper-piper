@@ -1,11 +1,21 @@
 import React from 'react'
 import { withAuth } from '../../global/Auth'
 import { Redirect } from 'react-router-dom'
+import style from './LoginPage.module.css'
 
-const LoginPage = withAuth(({ isAuthorized, autorize }) => (
-  isAuthorized ? <Redirect to='./' /> : (
-    <div>autorize</div>
+const LoginPage = withAuth(({ isAutorized, autorize }) => {
+  console.log(isAutorized) 
+  return (
+    isAutorized ? <Redirect to='/' /> : (
+      <div className={style.container}>
+        <div className={style.form}>
+          <h1>Вы не авторизованы</h1>
+          <button onClick={() => autorize()}>Авторизоваться</button>
+        </div>
+      </div>
+    )
   )
-))
+})
+  
 
 export default LoginPage

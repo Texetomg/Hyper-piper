@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import SearchPage from './pages/SearchPage'
 import MovieInfoPage from './pages/MovieInfoPage/MovieInfoPage'
 import NotFoundPage from './pages/NotFoundPage'
-import LoginPage from './pages/LoginPage/LoginPage'
+import LoginPage from './pages/LoginPage'
 import GreetingPage from './pages/GreetingPage/GreetingPage'
 /* import PrivateRoute from '../components/global/PrivateRoute' */
 

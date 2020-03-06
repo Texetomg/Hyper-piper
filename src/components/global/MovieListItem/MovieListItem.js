@@ -5,7 +5,6 @@ import { POSTER_SRC } from '../../../constans'
 import style from './MovieListItem.module.css'
 
 const Movie = ({ data }) => {
-  console.log(data)
   return (
 <Link to={{ pathname: "/movie" }}>
     <div
