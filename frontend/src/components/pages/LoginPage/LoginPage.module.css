@@ -1,0 +1,24 @@
+.container {
+  width: 95%;
+  min-height: 75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.button {
+  width: 300px;
+  border: 1px solid grey;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.form {
+  background-color: #242426;
+  padding: 35px;
+}

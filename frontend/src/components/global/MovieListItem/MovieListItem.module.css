@@ -1,0 +1,40 @@
+.item {
+  height: 350px;
+  width: 240px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 3px;
+}
+
+.item img {
+  height: 100%;
+  width: 100%;
+}
+
+.itemDescription {
+  font-size: 16px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  color: #c3c4c3;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column-reverse;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(7, 1, 1, 0.877));
+  visibility: hidden;
+}
+
+.title {
+  width: 100%;
+}
+
+.item:hover > .itemDescription {
+  visibility: visible;
+}
+
+.itemScore {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

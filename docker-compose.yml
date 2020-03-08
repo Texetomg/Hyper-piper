@@ -6,12 +6,11 @@ services:
         expose: 
             - ${APP_PORT}
         environment: 
-            API_HOST: ${API_HOST}
             APP_PORT: ${APP_PORT}
         ports: 
             - ${APP_PORT}:${APP_PORT}
         volumes: 
-            - ./backend:/backend
+            - './backend:/backend'
     frontend:
         build: frontend
         environment: 
@@ -21,6 +20,7 @@ services:
         expose: 
             - ${REACT_APP_PORT}
         volumes: 
-            - ./frontend:/frontend
+            - './frontend:/frontend'
+            - '/frontend/node_modules'
         links: 
             - backend

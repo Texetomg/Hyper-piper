@@ -1,0 +1,12 @@
+.searchArea {
+  width: 50vw;
+  min-width: 240px;
+  padding: 6px 20px;
+  box-sizing: border-box;
+  border-radius: 25px;
+  border: 1px solid #555;
+  background-color: #3c3c3c;
+  margin-bottom: 25px;
+  outline: none;
+  color: white;
+}
