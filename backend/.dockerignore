@@ -1,2 +1,4 @@
-.build
-Hypertube.xcodeproj
+node_modules
+package-lock.json
+.jshintrc
+.gitignore

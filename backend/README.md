@@ -1,3 +1,4 @@
-# Hypertube
+## Hypertube backend
 
-A description of this package.
+Run command **npm run server** to start server.
+

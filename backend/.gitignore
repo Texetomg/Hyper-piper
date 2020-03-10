@@ -1,5 +1,5 @@
+/node_modules
+/.pnp
+.pnp.js
 .DS_Store
-/.build
-/Packages
-/*.xcodeproj
-xcuserdata/
+package-lock.json

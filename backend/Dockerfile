@@ -1,6 +1,8 @@
-FROM swift:5.1
-RUN apt update -y && apt install -y openssl libssl-dev libcurl4-openssl-dev
-COPY . /backend
+FROM node:12.16.1-alpine3.9
 WORKDIR /backend
-RUN swift build
-CMD [ "swift", "run" ]
+COPY . /backend
+ENV PATH /backend/node_modules/.bin:$PATH
+ADD package.json /package.json
+COPY package.json /backend/package.json
+RUN npm install --save --silent
+CMD ["npm", "run", "server"]
