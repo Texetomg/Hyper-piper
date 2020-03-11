@@ -12,24 +12,36 @@ class AuthProvider extends React.Component {
   auth0 = new auth0.WebAuth({
     domain: 'dev-8ldxy1ri.auth0.com',
     clientID: '3HTPqeNQr7VbAub3YUhvnu56zz3XbbKO',
-    redirectUti: 'http://localhost:3000',
+    redirectUri: 'http://localhost:3000/callback',
     responseType: 'token id_token',
-    scrope: 'openid'
+    scope: 'openid'
   })
 
   autorize = () => {
     this.auth0.authorize();
-   /*  this.setState({isAutorized: true}/* , () => {
-      this.props.history.push('/search')
-    } )
-    console.log(this.state.isAutorized) */
+  }
+
+  handleAuthentication = () => {
+    this.auth0.parseHash((error, authResult) => {
+      if (authResult && authResult.accessToken) {
+        this.setState({ isAutorized: true }, () => {
+          this.props.history.push('/')
+        })
+      } else if (error) {
+        console.log(error)
+      }
+    })
   }
 
   render() {
     const { isAutorized } = this.state
 
     return(
-      <Provider value={{isAutorized, autorize: this.autorize}}>
+      <Provider value={{
+        isAutorized,
+        autorize: this.autorize,
+        handleAuthentication: this.handleAuthentication
+      }}>
         {this.props.children}
       </Provider>
     )

@@ -10,7 +10,12 @@ const LoginPage = withAuth(({ isAutorized, autorize }) => {
       <div className={style.container}>
         <div className={style.form}>
           <h1>Вы не авторизованы</h1>
-          <button onClick={() => autorize()}>Авторизоваться</button>
+          <div
+            onClick={() => autorize()}
+            className={style.button}
+          > 
+            Авторизоваться
+          </div>
         </div>
       </div>
     )
