@@ -3,6 +3,7 @@ import SearchArea from '../../global/SearchArea'
 import MovieList from '../../global/MovieList'
 import Pagination from '../../global/Pagination'
 import Preloader from '../../global/Preloader'
+import FiltersPanel from '../../global/FiltersPanel'
 import style from './SearchPage.module.css'
 import * as API from '../../../constans'
 
@@ -63,6 +64,7 @@ const SearchPage = () => {
         handleSubmit={handleSubmit}
         handleChange={handleChange}
       />
+      <FiltersPanel />
       <MovieList
         movies={results}
       />
