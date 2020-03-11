@@ -1,0 +1,17 @@
+.poster {
+  width: auto;
+  height: 300px;
+}
+
+.container {
+  display: flex;
+  margin: auto;
+  max-width: 60%;
+  height: 80%;
+}
+
+.info {
+  margin-left: 15px;
+  max-width: 60%;
+  word-wrap: break-word;
+}

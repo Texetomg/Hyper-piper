@@ -1,11 +1,11 @@
 import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import SearchPage from './pages/SearchPage'
-import MovieInfoPage from './pages/MovieInfoPage/MovieInfoPage'
+import MovieInfoPage from './pages/MovieInfoPage'
 import NotFoundPage from './pages/NotFoundPage'
 import LoginPage from './pages/LoginPage'
-import GreetingPage from './pages/GreetingPage/GreetingPage'
+import GreetingPage from './pages/GreetingPage'
 /* import PrivateRoute from '../components/global/PrivateRoute' */
 
 const Main = () => {

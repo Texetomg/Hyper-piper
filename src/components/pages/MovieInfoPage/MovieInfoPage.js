@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import Preloader from '../../global/Preloader'
-import defaultPoster from '../../../assets/imgs/default_movie.png'
 import * as API from '../../../constans'
+import MovieInfo from '../../global/MovieInfo'
 
 const MovieInfoPage = () => {
-  const [ popcornData, setPopCornData] = useState('');
+  const [ popcornData, setPopCornData ] = useState('')
+  const [ moviedbData, setMoviedbData ] = useState('')
+  const [ moviedbTrailer, setMoviedbTrailer ] = useState('')
   const [ preloader, setPreloader ] = useState(1)
+  const [ errorStatus, setErrorStatus ] = useState(false)
 
   useEffect(() => {
     fetch(`${API.SEARCH_MOVIE}/${localStorage.getItem('currentFilm')}?api_key=${API.KEY}`)
     .then(data => data.json())
-    .then(data => (
+    .then(data => {
+      setMoviedbData(data)
       fetch(`https://tv-v2.api-fetch.website/movie/${data.imdb_id}`)
       .then(data => data.json())
       .then(data => {
@@ -18,32 +22,28 @@ const MovieInfoPage = () => {
         setPopCornData(data)
         setPreloader(0)
       })
-    ))
+      .then(() => {
+        fetch(`${API.SEARCH_MOVIE}/${localStorage.getItem('currentFilm')}/videos?api_key=${API.KEY}`)
+        .then(data => data.json())
+        .then(data => {
+          setMoviedbTrailer(data.results)
+        })
+      })
+      .catch(e => {
+        setPreloader(0)
+        setErrorStatus(true)
+      })
+    })
   }, [])
 
   return (
     preloader ? (<Preloader active={preloader}/>) : (
-      <div className="container">
-      <div className="row" >
-      </div>
-      <div className="row">
-        <div className="col s12 m4">
-          <img
-            src={!popcornData.images.poster ? defaultPoster : `${popcornData.images.poster}`}
-            alt='movie poster'
-            // исправить в стили
-            style={{width: "auto", height: 360}}
-          />
-        </div>
-        <div className="col s12 m8">
-        <div className="info-container">
-          <p>{popcornData.title}</p>
-          <p>{popcornData.release_date}</p>
-          <p>{popcornData.overview}</p>
-        </div>
-      </div>
-      </div> 
-    </div>
+      <MovieInfo
+        errorStatus={errorStatus}
+        popcornData={popcornData}
+        moviedbData={moviedbData}
+        moviedbTrailer={moviedbTrailer}
+      />
     ) 
   )
 }
