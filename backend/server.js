@@ -23,7 +23,7 @@ let currentMovieUrl = '';
 let currentIMDB = '';
 
 
-app.get('/movie/:id/:quality', function (req, res) {
+app.get('/get_movie', function (req, res) {
     let tmpReq = req;
     let quality = req.params.quality + 'p';
 
