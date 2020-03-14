@@ -8,6 +8,13 @@ const subtitles = require('./downloadAndStream/downloadSubtitles');
 var schedule = require('node-schedule');
 
 
+
+var bodyParser = require('body-parser')
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
 app.use(express.static(path.join(__dirname, '/tmp')));
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -23,99 +30,78 @@ let currentMovieUrl = '';
 let currentIMDB = '';
 
 
-app.get('/get_movie', function (req, res) {
-    let tmpReq = req;
-    let quality = req.params.quality + 'p';
-
-    request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
-        if (res.body) {
-            let movieInfo = JSON.parse(res.body);
-            if (movieInfo.torrents.en) {
-                currentMovieUrl = movieInfo.torrents.en[quality].url;
-                currentIMDB = movieInfo.imdb_id;
-                torrentHash[tmpReq.params.id] = {
-                    'url': movieInfo.torrents.en[quality].url,
-                    'imdb': movieInfo.imdb_id
-                };
-            }
-        }
-    });
+app.post('/get_movie', function (req, res) {
+    console.log(req.body.url);
     setTimeout(function () {
-        if (torrentHash[req.params.id]) {
-            currentMovieUrl = torrentHash[req.params.id].url;
-            currentIMDB = torrentHash[req.params.id].imdb;
-            stream.magnetUrl(req, res, currentMovieUrl, req.params.id, req.params.quality);
-        } else {
-            res.send("error");
-        }
+        stream.magnetUrl(req, res, req.body.url, req.body.id, req.body.quality);
     }, 1000);
 });
 
-app.get('/youtube/:id', function (req, res) {
-    let tmpRes = res;
-    request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
-        if (res.body) {
-            let movieInfo = JSON.parse(res.body);
-            if (movieInfo.trailer) {
-                let trailer = movieInfo.trailer.split("=");
-                let response = {
-                    url: trailer[1]
-                };
-                tmpRes.send(response)
-            } else {
-                let response = {
-                    url: 'OUMvvYSCnMQ'
-                };
-                tmpRes.send(response)
-            }
-        } else {
-            let response = {
-                url: 'OUMvvYSCnMQ'
-            };
-            tmpRes.send(response)
-        }
-    });
-});
+// app.get('/youtube/:id', function (req, res) {
+//     let tmpRes = res;
+//     request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
+//         if (res.body) {
+//             let movieInfo = JSON.parse(res.body);
+//             if (movieInfo.trailer) {
+//                 let trailer = movieInfo.trailer.split("=");
+//                 let response = {
+//                     url: trailer[1]
+//                 };
+//                 tmpRes.send(response)
+//             } else {
+//                 let response = {
+//                     url: 'OUMvvYSCnMQ'
+//                 };
+//                 tmpRes.send(response)
+//             }
+//         } else {
+//             let response = {
+//                 url: 'OUMvvYSCnMQ'
+//             };
+//             tmpRes.send(response)
+//         }
+//     });
+// });
 
-app.get('/subtitles/en/:id', function (req, res) {
-    let tmpReq = req;
-    request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
-        if (res.body) {
-            let movieInfo = JSON.parse(res.body);
-            currentIMDB = movieInfo.imdb_id;
-        }
-    });
-    setTimeout(function () {
-        subtitles.getEnglishSubtitles(res, currentIMDB, tmpReq.params.id);
-    }, 2000);
-});
+// app.get('/subtitles/en/:id', function (req, res) {
+//     let tmpReq = req;
+//     request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
+//         if (res.body) {
+//             let movieInfo = JSON.parse(res.body);
+//             currentIMDB = movieInfo.imdb_id;
+//         }
+//     });
+//     setTimeout(function () {
+//         subtitles.getEnglishSubtitles(res, currentIMDB, tmpReq.params.id);
+//     }, 2000);
+// });
 
-app.get('/subtitles/ru/:id', function (req, res) {
-    let tmpReq = req;
-    let currentIMDB = '';
-    request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
-        if (res.body) {
-            let movieInfo = JSON.parse(res.body);
-            currentIMDB = movieInfo.imdb_id;
-        }
-    });
-    setTimeout(function () {
-        subtitles.getRussianSubtitles(res, currentIMDB, tmpReq.params.id);
-    }, 2000);
-});
+// app.get('/subtitles/ru/:id', function (req, res) {
+//     let tmpReq = req;
+//     let currentIMDB = '';
+//     request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
+//         if (res.body) {
+//             let movieInfo = JSON.parse(res.body);
+//             currentIMDB = movieInfo.imdb_id;
+//         }
+//     });
+//     setTimeout(function () {
+//         subtitles.getRussianSubtitles(res, currentIMDB, tmpReq.params.id);
+//     }, 2000);
+// });
 
-schedule.scheduleJob('*/1 * * * *', function () {
-    request('http://localhost:8000/api/films/return-films', function (req, res) {
-        let arr = JSON.parse(res.body);
-        arr.forEach(function (i) {
-            fs.exists('/tmp/' + i.id_film, (exists) => {
-                if (exists) {
-                    fs.unlinkSync('/tmp/' + i.id_film)
-                }
-            });
-        });
-    });
-});
+// schedule.scheduleJob('*/1 * * * *', function () {
+//     request('http://localhost:8000/api/films/return-films', function (req, res) {
+//         let arr = JSON.parse(res.body);
+//         arr.forEach(function (i) {
+//             fs.exists('/tmp/' + i.id_film, (exists) => {
+//                 if (exists) {
+//                     fs.unlinkSync('/tmp/' + i.id_film)
+//                 }
+//             });
+//         });
+//     });
+// });
 
 const port = 8000;
 

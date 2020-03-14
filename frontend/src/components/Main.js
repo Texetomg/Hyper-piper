@@ -7,7 +7,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import LoginPage from './pages/LoginPage'
 import GreetingPage from './pages/GreetingPage'
 import CallbackPage from './pages/CallbackPage'
-import PrivateRoute from '../components/global/PrivateRoute'
+// import PrivateRoute from '../components/global/PrivateRoute'
 
 const Main = () => {
   return (
@@ -15,9 +15,9 @@ const Main = () => {
       <Switch>
         <Route path='/login' component={LoginPage}/>
         <Route path='/callback' component={CallbackPage}/>
-        <PrivateRoute exact path='/' component={GreetingPage}/>
-        <PrivateRoute path='/search' component={SearchPage}/>
-        <PrivateRoute path='/movie' component={MovieInfoPage}/>
+        <Route exact path='/' component={GreetingPage}/>
+        <Route path='/search' component={SearchPage}/>
+        <Route path='/movie' component={MovieInfoPage}/>
         <Route path='/*' component={NotFoundPage}/>
       </Switch>
     </div>
