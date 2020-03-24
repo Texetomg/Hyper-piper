@@ -46,6 +46,9 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
           <iframe title='kek' src={moviedbData === '' ? '' : (
             `https://www.youtube.com/embed/${moviedbTrailer[0]?.id}`
           )}></iframe>
+          <video id="videoPlayer" controls>
+            <source src={`http://backend:8000/movie/${popcornData.imdb_id}/720`} type="video/mp4"/>
+          </video>
       </div>
     </div>
   )
