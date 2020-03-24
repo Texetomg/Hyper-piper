@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import defaultPoster from '../../../assets/imgs/default_movie.png'
 import * as API from '../../../constans'
 import styles from './MovieInfo.module.css'
 
 const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) => {
+
+  const [currentId, setCurrentId] = useState('')
+
   const sendMagnet = (quality) => {
+    setCurrentId(popcornData.imdb_id)
     fetch('/get_movie', {
       method: 'POST',
       headers: {
@@ -46,9 +50,9 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
           <iframe title='kek' src={moviedbData === '' ? '' : (
             `https://www.youtube.com/embed/${moviedbTrailer[0]?.id}`
           )}></iframe>
-          <video id="videoPlayer" controls>
+          {currentId !== '' && <video id="videoPlayer" controls>
             <source src={`http://backend:8000/movie/${popcornData.imdb_id}/720`} type="video/mp4"/>
-          </video>
+          </video>}
       </div>
     </div>
   )
