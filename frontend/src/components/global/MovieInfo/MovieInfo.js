@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import defaultPoster from '../../../assets/imgs/default_movie.png'
 import * as API from '../../../constans'
 import styles from './MovieInfo.module.css'
+import ReactPlayer from 'react-player';
 
 const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) => {
 
   const [currentId, setCurrentId] = useState('')
 
   const sendMagnet = (quality) => {
-    setCurrentId(popcornData.imdb_id)
-    fetch('/get_movie', {
+    
+   /*  fetch('/get_movie', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -20,7 +21,8 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
         url: popcornData.torrents.en[quality].url,
         quality: quality
       })
-    })
+    }) */
+    setCurrentId(popcornData.imdb_id)
   }
 
   return (
@@ -50,9 +52,24 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
           <iframe title='kek' src={moviedbData === '' ? '' : (
             `https://www.youtube.com/embed/${moviedbTrailer[0]?.id}`
           )}></iframe>
-          {currentId !== '' && <video id="videoPlayer" controls>
-            <source src={`http://backend:8000/movie/${popcornData.imdb_id}/720`} type="video/mp4"/>
-          </video>}
+          {currentId !== '' &&
+            <ReactPlayer
+              playing={true}
+              controls={true}
+              width='100%'
+              height='40%'
+              onReady={() => {
+                  if (this.state.resolution === 720) {
+                      document.getElementById('1080').disabled = false;
+                  }
+                  else {
+                      document.getElementById('720').disabled = false;
+                  }
+              }}
+              url={[`http://localhost:8000/get_movie/${popcornData.imdb_id}/720`]}
+            >
+          </ReactPlayer>}
+         
       </div>
     </div>
   )
