@@ -22,6 +22,7 @@ let partialContent = function (req, res, start, end, fileSize, file) {
     };
     res.writeHead(206, head);
 
+    console.log('HUY')
     let stream = file.createReadStream({
         start: start,
         end: end
@@ -34,6 +35,7 @@ let notPartialContent = function (req, res, fileSize, pathToVideo) {
         'Content-Length': fileSize,
         'Content-Type': 'video/mp4',
     };
+    console.log('hi');
     fs.createReadStream(pathToVideo).pipe(res);
     res.writeHead(200, head);
 };

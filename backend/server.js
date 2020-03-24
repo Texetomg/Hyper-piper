@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, '/tmp')));
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://frontend:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
@@ -30,12 +30,21 @@ let currentMovieUrl = '';
 let currentIMDB = '';
 
 
-app.get('/get_movie', function (req, res) {
-    var url = 'magnet:?xt=urn:btih:60DDCB34E80238043651459E5E31D8C56ACCC495&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://tracker.internetwarriors.net:1337'
-    var id = 'tt8752440';
-    var quality = '720p';
-    stream.magnetUrl(req, res, url, id, quality);
+app.post('/get_movie', function(req, res){
+  app.set('url', req.body.url);
+  app.set('id', req.body.id);
+  app.set('quality', req.body.quality);
 });
+app.get('/display_movie', function(req, res) {
+    stream.magnetUrl(req, res, app.get('url'), app.get('id'), app.get('quality'));
+});
+
+//app.get('/get_movie', function (req, res) {
+//  var url = 'magnet:?xt=urn:btih:60DDCB34E80238043651459E5E31D8C56ACCC495&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://tracker.internetwarriors.net:1337'
+//    var id = 'tt8752440';
+//    var quality = '720p';
+ //   stream.magnetUrl(req, res, url, id, quality);
+//});
 
 // app.get('/youtube/:id', function (req, res) {
 //     let tmpRes = res;

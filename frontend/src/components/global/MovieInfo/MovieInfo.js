@@ -10,7 +10,7 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
 
   const sendMagnet = (quality) => {
     
-   /*  fetch('/get_movie', {
+     fetch('/get_movie', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -21,7 +21,7 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
         url: popcornData.torrents.en[quality].url,
         quality: quality
       })
-    }) */
+    })
     setCurrentId(popcornData.imdb_id)
   }
 
@@ -66,7 +66,7 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
                       document.getElementById('720').disabled = false;
                   }
               }}
-              url={[`http://localhost:8000/get_movie/${popcornData.imdb_id}/720`]}
+              url={[`http://localhost:8000/display_movie`]}
             >
           </ReactPlayer>}
          
