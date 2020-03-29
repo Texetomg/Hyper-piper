@@ -43,10 +43,10 @@ app.get('/display_movie/:id/:res', function(req, res) {
     stream.magnetUrl(req, res, app.get('url'), req.params.id, req.body.res);
 });
 
-const commentSchema = new Schema({
+const Comment = mongoose.model('Comment', {
         id: { type: Number },
         userAva: { type: String, default: 'Bogdan gay' },
-        userName: { type: String, default: 'Ya Bogdan' }
+        userName: { type: String, default: 'Ya Bogdan' },
         commentData: { type: Date, default: Date.now },
         text: { type: String },
         parentId: { type: Number, default: 0 },
@@ -55,8 +55,7 @@ const commentSchema = new Schema({
 });
 
 app.post('/post_comment', function(req, res) {
-   let commentModel = mongoose.model('Comment', commentSchema);
-        let comment = new commentModel({
+        let comment = new Comment({
             id: 0
             // здесь заполняем данные о комменте
         });
