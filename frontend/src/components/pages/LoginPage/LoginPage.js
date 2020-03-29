@@ -1,5 +1,5 @@
 import React from 'react'
-import { withAuth } from '../../global/Auth'
+import { withAuth } from '../../helpers/Auth'
 import { Redirect } from 'react-router-dom'
 import style from './LoginPage.module.css'
 

@@ -29,14 +29,12 @@ let torrentHash = {};
 let currentMovieUrl = '';
 let currentIMDB = '';
 
-
 app.post('/get_movie', function(req, res){
   app.set('url', req.body.url);
-  app.set('id', req.body.id);
-  app.set('quality', req.body.quality);
 });
-app.get('/display_movie', function(req, res) {
-    stream.magnetUrl(req, res, app.get('url'), app.get('id'), app.get('quality'));
+
+app.get('/display_movie/:id/:res', function(req, res) {
+    stream.magnetUrl(req, res, app.get('url'), req.params.id, req.body.res);
 });
 
 //app.get('/get_movie', function (req, res) {

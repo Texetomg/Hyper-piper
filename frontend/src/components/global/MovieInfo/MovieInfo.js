@@ -3,10 +3,12 @@ import defaultPoster from '../../../assets/imgs/default_movie.png'
 import * as API from '../../../constans'
 import styles from './MovieInfo.module.css'
 import ReactPlayer from 'react-player';
+import Comments from '../Comments'
 
 const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) => {
 
   const [currentId, setCurrentId] = useState('')
+  const [resolution,setResolution]= useState('')
 
   const sendMagnet = (quality) => {
     
@@ -42,10 +44,16 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
           'нет данных по торренту' ) : ( 
             <div>
               {popcornData.torrents.en['720p'] ? (
-                <button onClick={() => sendMagnet('720p')}>720</button>
+                <button onClick={() => {
+                  sendMagnet('720p')
+                  setResolution('720p')
+                }}>720</button>
               ) : null}
               {popcornData.torrents.en['1080p'] ? (
-                <button onClick={() => sendMagnet('1080p')}>1080</button>
+                <button onClick={() => {
+                  sendMagnet('1080p')
+                  setResolution('1080p')
+                }}>1080</button>
               ) : null}
             </div>
           )}</div>
@@ -56,21 +64,14 @@ const MovieInfo = ({ errorStatus, popcornData, moviedbData, moviedbTrailer }) =>
             <ReactPlayer
               playing={true}
               controls={true}
-              width='100%'
-              height='40%'
-              onReady={() => {
-                  if (this.state.resolution === 720) {
-                      document.getElementById('1080').disabled = false;
-                  }
-                  else {
-                      document.getElementById('720').disabled = false;
-                  }
-              }}
-              url={[`http://localhost:8000/display_movie`]}
+              width='320px'
+              height='240px'
+              url={[`http://localhost:8000/display_movie/${popcornData.imdb_id}/${resolution}`]}
             >
           </ReactPlayer>}
-         
+          <Comments/>
       </div>
+     
     </div>
   )
 }

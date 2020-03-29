@@ -18,7 +18,6 @@ const MovieInfoPage = () => {
       fetch(`https://tv-v2.api-fetch.website/movie/${data.imdb_id}`)
       .then(data => data.json())
       .then(data => {
-        console.log(data.torrents.en['1080p'].url)
         setPopCornData(data)
         setPreloader(0)
       })
@@ -38,12 +37,16 @@ const MovieInfoPage = () => {
 
   return (
     preloader ? (<Preloader active={preloader}/>) : (
-      <MovieInfo
-        errorStatus={errorStatus}
-        popcornData={popcornData}
-        moviedbData={moviedbData}
-        moviedbTrailer={moviedbTrailer}
-      />
+      <div>
+        <MovieInfo
+          errorStatus={errorStatus}
+          popcornData={popcornData}
+          moviedbData={moviedbData}
+          moviedbTrailer={moviedbTrailer}
+        />
+       
+      </div>
+      
     ) 
   )
 }

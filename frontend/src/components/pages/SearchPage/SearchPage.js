@@ -31,6 +31,8 @@ const SearchPage = () => {
     const url = `${API.SEARCH_ALL}?api_key=${API.KEY}&query=${searchTerm}`
 
     e.preventDefault()
+    
+    localStorage.setItem('searchTerm', searchTerm)
     if (searchTerm !== '') {
       fetchData(url ,setPreloader, setTotalResults, setResults)
     }  
@@ -38,7 +40,7 @@ const SearchPage = () => {
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value)
-    localStorage.setItem('searchTerm', e.target.value)
+    
   }
 
   useEffect(() => {
