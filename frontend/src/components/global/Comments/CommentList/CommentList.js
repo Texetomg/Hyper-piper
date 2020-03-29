@@ -19,6 +19,7 @@ class CommentList extends React.Component {
       .parentId(d => d.parentId)
 
     const structuredComments = stratify(this.props.comments)
+    console.log(structuredComments);
     this.setState({ comments: [...structuredComments.children] })
   }
 

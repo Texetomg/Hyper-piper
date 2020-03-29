@@ -54,6 +54,10 @@ const Comment = mongoose.model('Comment', {
         deleted: { type: Boolean, default: false }
 });
 
+app.get('/get_comments', function(req, res) {
+    
+});
+
 app.post('/post_comment', function(req, res) {
         let comment = new Comment({
             id: 0
