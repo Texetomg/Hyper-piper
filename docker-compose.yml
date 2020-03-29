@@ -12,6 +12,8 @@ services:
         volumes: 
             - './backend:/backend'
             - '/backend/node_modules'
+        depends_on:
+            - database
     frontend:
         build: frontend
         environment: 
@@ -25,3 +27,11 @@ services:
             - '/frontend/node_modules'
         links: 
             - backend
+    database:
+        build: database
+        expose:
+            - 27017
+        ports:
+            - 27017:27017
+        volumes:
+            - './database:/database'

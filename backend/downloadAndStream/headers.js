@@ -22,7 +22,6 @@ let partialContent = function (req, res, start, end, fileSize, file) {
     };
     res.writeHead(206, head);
 
-    console.log('HUY')
     let stream = file.createReadStream({
         start: start,
         end: end
